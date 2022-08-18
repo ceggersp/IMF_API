@@ -1,13 +1,11 @@
 import IMF_API
 dir = 'C:/Users/CARLOSEG/OneDrive - Inter-American Development Bank Group/Documents/IMF_API/Data'
 
-dataset = 'FM'
-indicator = 'GGXWDN_G01_GDP_PT'
+dataset = 'IFS'
+indicator = 'PMP_IX'
 F = 'A'
-country = 'ALL'
+country = 'GB'
 
-DATA = IMF_API.request_data(F,dataset,country,indicator)
+DATA = IMF_API.request_data(dataset,country,indicator)
 
-DATA = DATA[DATA['year'] == 2022]
-
-DATA.to_csv(dir+'/Example.csv', header=True, index=False)
+print(DATA)

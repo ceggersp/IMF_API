@@ -44,16 +44,31 @@ def country_request(F,dataset,country,country_name,indicator,name):
         time.sleep(0.51)
         return country_data
 
-def request_data(F,dataset,country,indicator,name):
+def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, country_name=0,save_file=0,file_type='csv'):
+    
+    if country_name == 0:
+        country_name = country
 
-    PANEL = pd.DataFrame(columns=['year', name, 'country', 'country_name'])
+    if var_name == 0:
+        var_name = parameters
+
+    PANEL = pd.DataFrame(columns=['year', var_name, 'country', 'country_name'])
 
     if country == 'ALL':
         for c in codelist('CL_AREA_'+dataset):
-            country_data = country_request(F,dataset,c['@value'],c['Description']['#text'],indicator,name)
+            country_data = country_request(F,dataset,c['@value'],c['Description']['#text'],parameters,var_name)
             PANEL = pd.concat([PANEL,country_data],axis=0)
 
     else:
-        PANEL = country_request(F,dataset,country,country,indicator,name)
+        PANEL = country_request(F,dataset,country,country_name,parameters,var_name)
+
+    if save_file == 0:
+        pass
+    else:
+        if file_type == 'csv':
+            PANEL.to_csv(save_file[0]+'.'+save_file[1]+'.'+file_type, header=True, index=False)
+        else:
+            PANEL.to_excel(save_file[0]+'.'+save_file[1]+'.'+file_type, header=True, index=False)
 
     return PANEL
+
