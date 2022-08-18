@@ -1,4 +1,5 @@
 # Python module to request data from the IMF API
+# ceggers@fen.uchile.cl - github: ceggersp
 import pandas as pd
 import requests
 import time
