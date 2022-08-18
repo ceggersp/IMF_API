@@ -5,7 +5,7 @@ import os
 import time
 import platform
 import pandas as pd
-import IMF_API
+import PyIMF
 
 if platform.system() == 'Linux':
     clear_command = 'clear'
@@ -78,7 +78,7 @@ def request_data():
     print('Enter the name you want for the file:')
     filename = str(input())
     print(' ')
-    DATA = IMF_API.request_data(dataset,parameters,country=country,F=F,save_file=[dir,filename])
+    DATA = PyIMF.request_data(dataset,parameters,country=country,F=F,save_file=[dir,filename])
     DATA.to_csv(dir+'/'+filename+'.csv', header=True, index=False)
     print('Hit ENTER to return to the main menu')
     input()
