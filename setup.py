@@ -5,7 +5,7 @@ import platform
 if platform.system() == 'Linux':
 
     wpath = sys.path[0]
-    ppath = sys.path[5]+'/PyIMF'
+    ppath = sys.path[4]+'/PyIMF'
     os.system('mkdir '+ppath)
     os.system('rm '+ppath+'/functions.py')
     os.system('rm '+ppath+'/__init__.py')
