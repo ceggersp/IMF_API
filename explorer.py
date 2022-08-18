@@ -129,7 +129,7 @@ while active == 'true':
             for i in range(1,4):
                 os.system(clear_command)
                 print('Closing the API explorer in '+str(4-i))
-                time.sleep(1)
+                time.sleep(0.5)
             os.system(clear_command)
             active = 'false'
     else:
