@@ -66,9 +66,9 @@ def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, countr
         pass
     else:
         if file_type == 'csv':
-            PANEL.to_csv(save_file[0]+'.'+save_file[1]+'.'+file_type, header=True, index=False)
+            PANEL.to_csv(save_file[0]+'/'+save_file[1]+'.'+file_type, header=True, index=False)
         else:
-            PANEL.to_excel(save_file[0]+'.'+save_file[1]+'.'+file_type, header=True, index=False)
+            PANEL.to_excel(save_file[0]+'/'+save_file[1]+'.'+file_type, header=True, index=False)
 
     return PANEL
 
