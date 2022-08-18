@@ -12,8 +12,8 @@ if platform.system() == 'Linux':
 else:
     clear_command = 'cls'
 
-def codelist(indicator):
-    key = f"CodeList/{indicator}"
+def codelist(dim):
+    key = f"CodeList/{dim}"
     code_list = requests.get(f'{url}{key}').json()\
             ['Structure']['CodeLists']['CodeList']['Code']
     return code_list
