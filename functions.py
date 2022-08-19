@@ -60,7 +60,7 @@ def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, countr
         for c in code_list:
             stepcounter = stepcounter + 1
             country_data = country_request(F,dataset,c['@value'],c['Description']['#text'],parameters,var_name)
-            per = round(100*stepcounter/len(country_data),2)
+            per = round(100*stepcounter/len(code_list),2)
             print('Overall progress: '+str(per)+'%')
             PANEL = pd.concat([PANEL,country_data],axis=0)
 
