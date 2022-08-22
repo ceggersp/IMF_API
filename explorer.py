@@ -16,7 +16,9 @@ else:
 def search():
     print(' ')
     print('Type the term you want to search')
-    print(PyIMF.find_series(str(input())).to_string(index=False))
+    series_list = PyIMF.find_series(str(input()))
+    for i in range(0,len(series_list)):
+        print(series_list['series_name'][i]+': '+series_list['series_ID'][i])
     print(' ')
     print('Hit ENTER to return to the main menu')
     input()
