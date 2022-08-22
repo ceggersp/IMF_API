@@ -1,6 +1,6 @@
 # IMF API explorer
 
-import requests  # Python 3.6
+import requests
 import os
 import time
 import platform
@@ -16,15 +16,7 @@ else:
 def search():
     print(' ')
     print('Type the term you want to search')
-    search_term = str(input())
-    url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/'
-    key = 'Dataflow'  # Method with series information
-    series_list = requests.get(f'{url}{key}').json()\
-                ['Structure']['Dataflows']['Dataflow']
-    # Use dict keys to navigate through results:
-    for series in series_list:
-        if search_term in series['Name']['#text']:
-            print(f"{series['Name']['#text']}: {series['KeyFamilyRef']['KeyFamilyID']}")
+    print(PyIMF.find_series(str(input())).to_string(index=False))
     print(' ')
     print('Hit ENTER to return to the main menu')
     input()

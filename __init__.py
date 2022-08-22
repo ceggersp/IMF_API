@@ -1,1 +1,1 @@
-from .functions import request_data
+from .functions import request_data, find_series

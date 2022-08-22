@@ -1,6 +1,7 @@
 # Python module to request data from the IMF API
 # ceggers@fen.uchile.cl - github: ceggersp
 import pandas as pd
+import numpy as np
 import requests
 import time
 import os
@@ -11,6 +12,35 @@ if platform.system() == 'Linux':
     clear_command = 'clear'
 else:
     clear_command = 'cls'
+
+def find_series(search_term):
+    key = 'Dataflow'  # Method with series information
+    search_series_list = pd.DataFrame(columns = ['series_name','series_ID'])
+    full_series_list = requests.get(f'{url}{key}').json()\
+                ['Structure']['Dataflows']['Dataflow']
+    # Use dict keys to navigate through results:
+    for series in full_series_list:
+        if search_term in series['Name']['#text']:
+            series_name = pd.DataFrame([series['Name']['#text']], columns = ['series_name'])
+            series_ID = pd.DataFrame([series['KeyFamilyRef']['KeyFamilyID']], columns = ['series_ID'])
+            search_series_list = pd.concat([search_series_list, pd.concat([series_name, series_ID], axis=1)], axis=0, ignore_index = True)
+
+    return search_series_list
+
+#def finddims():
+#    print(' ')
+#    print('Type data from which you want to search')
+#    series = str(input())
+#    url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/'
+#    key = 'DataStructure/'+series  # Method / series
+#    dimension_list = requests.get(f'{url}{key}').json()\
+#                ['Structure']['KeyFamilies']['KeyFamily']\
+#                ['Components']['Dimension']
+#    for n, dimension in enumerate(dimension_list):
+#        print(f"Dimension {n+1}: {dimension['@codelist']}")
+#    print(' ')
+#    print('Hit ENTER to return to the main menu')
+#    input()
 
 def codelist(dim):
     key = f"CodeList/{dim}"
