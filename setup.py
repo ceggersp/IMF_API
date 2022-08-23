@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 
-
 setup(
 
     name='PyIMF',
@@ -8,8 +7,8 @@ setup(
     license='MIT',
     author="Carlos Eggers",
     author_email='ceggers@fen.uchile.cl',
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
+    packages=find_packages(where = 'PyIMF'),
+    #package_dir={'': 'PyIMF'},
     url='https://github.com/ceggersp/IMF_API',
     keywords='IMF API',
     install_requires=[
