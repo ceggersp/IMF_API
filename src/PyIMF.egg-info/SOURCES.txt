@@ -1,0 +1,9 @@
+LICENSE.rst
+README.md
+setup.cfg
+setup.py
+src/PyIMF.egg-info/PKG-INFO
+src/PyIMF.egg-info/SOURCES.txt
+src/PyIMF.egg-info/dependency_links.txt
+src/PyIMF.egg-info/requires.txt
+src/PyIMF.egg-info/top_level.txt
