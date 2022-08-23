@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(
-    
+
     name='PyIMF',
     version='1.0.0',
     license='MIT',
@@ -13,7 +13,6 @@ setup(
     url='https://github.com/ceggersp/IMF_API',
     keywords='IMF API',
     install_requires=[
-          'scikit-learn',
           'pandas',
           'numpy'
       ],
