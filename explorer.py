@@ -38,13 +38,10 @@ def finddims():
 def findcodes():
     print(' ')
     print('Print the dimension from which you want to search')
-    dim = str(input())
-    url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/'
-    key = f"CodeList/{dim}"
-    code_list = requests.get(f'{url}{key}').json()\
-            ['Structure']['CodeLists']['CodeList']['Code']
-    for code in code_list:
-        print(f"{code['Description']['#text']}: {code['@value']}")
+    code_list = PyIMF.find_codes(str(input()))
+    print(' ')
+    for c in range(0, len(code_list)):
+        print(code_list['Description'][c]+': '+code_list['Code'][c])
     print(' ')
     print('Hit ENTER to return to the main menu')
     input()

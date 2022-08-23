@@ -39,11 +39,20 @@ def find_dims(series):
     
     return dims
 
-def codelist(dim):
+def find_codes(dim):
+    
     key = f"CodeList/{dim}"
     code_list = requests.get(f'{url}{key}').json()\
             ['Structure']['CodeLists']['CodeList']['Code']
-    return code_list
+
+    codes = pd.DataFrame(columns = ['Description','Code'])
+    # Use dict keys to navigate through results:
+    for c in code_list:
+        code_desc = pd.DataFrame([c['Description']['#text']], columns = ['Description'])
+        code = pd.DataFrame([c['@value']], columns = ['Code'])
+        codes = pd.concat([codes, pd.concat([code_desc, code], axis=1)], axis=0, ignore_index = True)
+
+    return codes
 
 def country_request(F,dataset,country,country_name,indicator,name):
 
@@ -82,8 +91,9 @@ def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, countr
     PANEL = pd.DataFrame(columns=['year', var_name, 'country', 'country_name'])
 
     if country == 'ALL':
-        for c in codelist('CL_AREA_'+dataset):
-            country_data = country_request(F,dataset,c['@value'],c['Description']['#text'],parameters,var_name)
+        code_list = find_codes('CL_AREA_'+dataset)
+        for c in range(0, len(code_list)):
+            country_data = country_request(F,dataset,code_list['Code'][c],code_list['Description'][c],parameters,var_name)
             PANEL = pd.concat([PANEL,country_data],axis=0)
 
     else:
