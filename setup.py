@@ -1,19 +1,16 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
-
     name='PyIMF',
-    version='1.0.1',
+    version='0.0.1',
     license='MIT',
-    author="Carlos Eggers",
+    author="Carlos Eggers P.",
     author_email='ceggers@fen.uchile.cl',
-    packages=find_packages(where = 'PyIMF'),
-    #package_dir={'': 'PyIMF'},
+    package_dir={'': 'src'},
     url='https://github.com/ceggersp/IMF_API',
     keywords='IMF API',
     install_requires=[
           'pandas',
           'numpy'
       ],
-
 )
