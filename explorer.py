@@ -1,5 +1,6 @@
 # IMF API explorer
 
+from ast import Index
 import requests
 import os
 import time
@@ -26,14 +27,10 @@ def search():
 def finddims():
     print(' ')
     print('Type data from which you want to search')
-    series = str(input())
-    url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/'
-    key = 'DataStructure/'+series  # Method / series
-    dimension_list = requests.get(f'{url}{key}').json()\
-                ['Structure']['KeyFamilies']['KeyFamily']\
-                ['Components']['Dimension']
-    for n, dimension in enumerate(dimension_list):
-        print(f"Dimension {n+1}: {dimension['@codelist']}")
+    dims = PyIMF.find_dims(str(input()))
+    print(' ')
+    for d in range(0,len(dims)):
+        print('Dimension '+str(d+1)+': '+dims['Dimensions'][d])
     print(' ')
     print('Hit ENTER to return to the main menu')
     input()

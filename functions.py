@@ -27,20 +27,17 @@ def find_series(search_term):
 
     return search_series_list
 
-#def finddims():
-#    print(' ')
-#    print('Type data from which you want to search')
-#    series = str(input())
-#    url = 'http://dataservices.imf.org/REST/SDMX_JSON.svc/'
-#    key = 'DataStructure/'+series  # Method / series
-#    dimension_list = requests.get(f'{url}{key}').json()\
-#                ['Structure']['KeyFamilies']['KeyFamily']\
-#                ['Components']['Dimension']
-#    for n, dimension in enumerate(dimension_list):
-#        print(f"Dimension {n+1}: {dimension['@codelist']}")
-#    print(' ')
-#    print('Hit ENTER to return to the main menu')
-#    input()
+def find_dims(series):
+    key = 'DataStructure/'+series  # Method / series
+    dimension_list = requests.get(f'{url}{key}').json()\
+                ['Structure']['KeyFamilies']['KeyFamily']\
+                ['Components']['Dimension']
+    dims = pd.DataFrame(columns = ['Dimensions'])
+    for n in range(0, len(dimension_list)):
+        dim = pd.DataFrame([dimension_list[n]['@codelist']], columns = ['Dimensions'])
+        dims = pd.concat([dims, dim], axis=0, ignore_index = True)
+    
+    return dims
 
 def codelist(dim):
     key = f"CodeList/{dim}"
