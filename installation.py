@@ -9,8 +9,8 @@ if platform.system() == 'Linux':
     os.system('mkdir '+ppath)
     os.system('rm '+ppath+'/functions.py')
     os.system('rm '+ppath+'/__init__.py')
-    os.system('cp '+'"'+wpath+'/functions.py" '+ppath)
-    os.system('cp '+'"'+wpath+'/__init__.py" '+ppath)
+    os.system('cp '+'"'+wpath+'/src/functions.py" '+ppath)
+    os.system('cp '+'"'+wpath+'/src/__init__.py" '+ppath)
 
 else:
 
@@ -19,5 +19,5 @@ else:
     os.system('mkdir '+ppath)
     os.system('del '+ppath+'\\functions.py')
     os.system('del '+ppath+'\\__init__.py')
-    os.system('copy '+'"'+wpath+'\\functions.py" '+ppath)
-    os.system('copy '+'"'+wpath+'\\__init__.py" '+ppath)
+    os.system('copy '+'"'+wpath+'\\src\\functions.py" '+ppath)
+    os.system('copy '+'"'+wpath+'\\src\\__init__.py" '+ppath)

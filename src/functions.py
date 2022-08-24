@@ -54,50 +54,47 @@ def find_codes(dim):
 
     return codes
 
-def country_request(F,dataset,country,country_name,indicator,name):
-
-    parameters = F+'.'+country+'.'+indicator
-    key = 'CompactData/'+dataset+'/'+parameters # adjust codes here
-    try:
-        # Navigate to series in API-returned JSON data
-        data = (requests.get(f'{url}{key}').json()
-                ['CompactData']['DataSet']['Series'])
-
-        # Create pandas dataframe from the observations
-        data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
-                     for obs in data['Obs']]
-        country_data = pd.DataFrame(data_list, columns=['year', name])
-        country_data['country'] = country
-        country_data['country_name'] = country_name
-        os.system(clear_command)
-        print(country+' data retrieved succesfully')
-        time.sleep(0.51)
-        return country_data
-    except:
-        country_data = pd.DataFrame(columns=['year', name, 'country', 'country_name'])
-        os.system(clear_command)
-        print(country+' data not found')
-        time.sleep(0.51)
-        return country_data
-
-def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, country_name=0,save_file=0,file_type='csv'):
-    
-    if country_name == 0:
-        country_name = country
+def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save_file=0, file_type='csv'):
 
     if var_name == 0:
         var_name = parameters
 
-    PANEL = pd.DataFrame(columns=['year', var_name, 'country', 'country_name'])
+    if countries == 'ALL':
+        countries_parameter = ''
+    else:
+        #code_list = find_codes('CL_AREA_'+dataset)
+        #countries_desc = []
+        for i in range(0, len(countries)):
+            if i == 0:
+                countries_parameter = countries[i]
+            else:
+                countries_parameter = countries_parameter+'+'+countries[i]
+            #row = code_list[code_list['Code'] == countries[i]]
+            #countries_desc = countries_desc + [row['Description']]
 
-    if country == 'ALL':
-        code_list = find_codes('CL_AREA_'+dataset)
-        for c in range(0, len(code_list)):
-            country_data = country_request(F,dataset,code_list['Code'][c],code_list['Description'][c],parameters,var_name)
-            PANEL = pd.concat([PANEL,country_data],axis=0)
+    key = 'CompactData/'+dataset+'/'+F+'.'+countries_parameter+'.'+parameters
+    print(key)
+    # Navigate to series in API-returned JSON data
+    data = (requests.get(f'{url}{key}').json()
+            ['CompactData']['DataSet']['Series'])
+
+    # Create pandas dataframe from the observations
+    PANEL = pd.DataFrame(columns=['year', var_name, 'country'])
+    if countries == 'ALL':
+        for i in range(0,len(data)):
+            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
+                        for obs in data[i]['Obs']]
+            country_data = pd.DataFrame(data_list, columns=['year', var_name])
+            country_data['country'] = data[i]['@REF_AREA']
+            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
 
     else:
-        PANEL = country_request(F,dataset,country,country_name,parameters,var_name)
+        for i in range(0,len(countries)):
+            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
+                        for obs in data[i]['Obs']]
+            country_data = pd.DataFrame(data_list, columns=['year', var_name])
+            country_data['country'] = countries[i]
+            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
 
     if save_file == 0:
         pass
@@ -107,5 +104,6 @@ def request_data(dataset, parameters, country = 'ALL', F='A', var_name=0, countr
         else:
             PANEL.to_excel(save_file[0]+'/'+save_file[1]+'.'+file_type, header=True, index=False)
 
+    os.system(clear_command)
+    print('Data retrieved succesfully')
     return PANEL
-
