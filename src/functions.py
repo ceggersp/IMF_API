@@ -96,8 +96,6 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
             country_data['country'] = countries[i]
             PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
 
-    PANEL['obs_code'] = str(PANEL['year'])+PANEL['country']
-
     if save_file == 0:
         pass
     else:

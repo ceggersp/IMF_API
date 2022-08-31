@@ -9,5 +9,4 @@
 
 import PyIMF
 gross_debt = PyIMF.request_data('FM', 'G_XWDG_G01_GDP_PT', countries = ['CR', 'SV', 'DO', 'GT', 'HN', 'NI', 'PA'], save_file='gross_debt')
-gross_debt['obs_code'] = 
 print(gross_debt)
