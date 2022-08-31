@@ -1,11 +1,8 @@
 # IMF API explorer
 
-from ast import Index
-import requests
 import os
 import time
 import platform
-import pandas as pd
 import PyIMF
 
 if platform.system() == 'Linux':

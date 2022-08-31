@@ -1,5 +1,4 @@
 # In this example, we want to build a panel with some data for 7 countries, and then make some plots.
-
 import PyIMF
 import pandas as pd
 import matplotlib.pyplot as plt
