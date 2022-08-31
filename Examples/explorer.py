@@ -51,23 +51,48 @@ def request_data():
     print('Enter the dataset from which you want to retrieve data')
     dataset = str(input())
     print(' ')
-    print('Enter the country from which you want to retrieve data:')
+    countries_n = 0
+    print('Enter the first country from which you want to retrieve data:')
     print('*If you want a panel with all available countries type "ALL", and wait a couple of minutes for the data to be retrieved.')
-    countries = str(input())
+    country_input = str(input())
+    ready = 0
+    if country_input == 'ALL':
+        countries = country_input
+    else:
+        countries_n = 1
+        countries = [country_input]
+        while ready == 0:
+            print(' ')
+            print('Enter another country from which you want to retrieve data, or')
+            print('type "ready" if you are done with the countries list:')
+            country_input = str(input())
+            if country_input == 'ready':
+                ready = 1
+            else:
+                countries_n = countries_n + 1
+                countries = countries + [country_input]
+
     print(' ')
     print('Enter the parameters you want to retrieve:')
     parameters = str(input())
     print('Choose a frequency: annual ("A"), quarterly ("Q"), monthly ("M")')
     F = str(input())
     print(' ')
-    print('Enter the directory where you want to store the data (using regular slash /):')
-    dir = str(input())
-    print(' ')
     print('Enter the name you want for the file:')
     filename = str(input())
     print(' ')
-    DATA = PyIMF.request_data(dataset,parameters,countries=countries,F=F,save_file=[dir,filename])
-    DATA.to_csv(dir+'/'+filename+'.csv', header=True, index=False)
+    print('Enter the directory where you want to store the data (using regular slash /):')
+    print("*You can also type 'here' if you want the file to be saved in this explorer's directory")
+    dir = str(input())
+    print(' ')
+    if dir == 'here':
+        pass
+    else:
+        filename = dir+'/'+filename
+    
+    print(' ')
+    print(PyIMF.request_data(dataset,parameters,countries=countries,F=F,save_file=filename))
+    print(' ')
     print('Hit ENTER to return to the main menu')
     input()
 
