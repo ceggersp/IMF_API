@@ -56,21 +56,19 @@ def find_codes(dim):
 
 def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save_file=0, file_type='csv'):
 
+    countries_code_list = find_codes('CL_AREA_'+dataset)
+
     if var_name == 0:
         var_name = parameters
 
     if countries == 'ALL':
         countries_parameter = ''
     else:
-        #code_list = find_codes('CL_AREA_'+dataset)
-        #countries_desc = []
         for i in range(0, len(countries)):
             if i == 0:
                 countries_parameter = countries[i]
             else:
                 countries_parameter = countries_parameter+'+'+countries[i]
-            #row = code_list[code_list['Code'] == countries[i]]
-            #countries_desc = countries_desc + [row['Description']]
 
     key = 'CompactData/'+dataset+'/'+F+'.'+countries_parameter+'.'+parameters
     print(key)
@@ -95,6 +93,10 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
             country_data = pd.DataFrame(data_list, columns=['year', var_name])
             country_data['country'] = countries[i]
             PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
+
+    PANEL['country_name'] = ['.' for i in range(0, len(PANEL))]
+    for i in range(0, len(PANEL)):
+        PANEL['country_name'][i] = countries_code_list['Description'][countries_code_list['Code'] == PANEL['country'][i]].values.astype(str)    
 
     PANEL['obs_code'] = PANEL['year'].astype(str)+PANEL['country']
 
