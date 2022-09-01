@@ -96,7 +96,8 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
 
     PANEL['country_name'] = ['.' for i in range(0, len(PANEL))]
     for i in range(0, len(PANEL)):
-        PANEL['country_name'][i] = countries_code_list['Description'][countries_code_list['Code'] == PANEL['country'][i]].values.astype(str)    
+        row = countries_code_list['Description'][countries_code_list['Code'] == PANEL['country'][i]].values.astype(str)
+        PANEL['country_name'][i] = row[0]    
 
     PANEL['obs_code'] = PANEL['year'].astype(str)+PANEL['country']
 
@@ -111,3 +112,5 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     os.system(clear_command)
     print('Data retrieved succesfully')
     return PANEL
+
+print(request_data('IFS', 'PMP_IX', ['GB', 'US', 'CL']))
