@@ -77,29 +77,20 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
             ['CompactData']['DataSet']['Series'])
 
     # Create pandas dataframe from the observations
-    PANEL = pd.DataFrame(columns=['year', var_name, 'country'])
-    if countries == 'ALL':
-        for i in range(0,len(data)):
-            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
-                        for obs in data[i]['Obs']]
-            country_data = pd.DataFrame(data_list, columns=['year', var_name])
-            country_data['country'] = data[i]['@REF_AREA']
-            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
-
-    else:
-        for i in range(0,len(countries)):
-            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
-                        for obs in data[i]['Obs']]
-            country_data = pd.DataFrame(data_list, columns=['year', var_name])
-            country_data['country'] = countries[i]
-            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
+    PANEL = pd.DataFrame(columns=['period', var_name, 'country'])
+    for i in range(0,len(data)):
+        data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
+                    for obs in data[i]['Obs']]
+        country_data = pd.DataFrame(data_list, columns=['period', var_name])
+        country_data['country'] = data[i]['@REF_AREA']
+        PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
 
     PANEL['country_name'] = ['.' for i in range(0, len(PANEL))]
     for i in range(0, len(PANEL)):
         row = countries_code_list['Description'][countries_code_list['Code'] == PANEL['country'][i]].values.astype(str)
         PANEL['country_name'][i] = row[0]    
 
-    PANEL['obs_code'] = PANEL['year'].astype(str)+PANEL['country']
+    PANEL['obs_code'] = PANEL['period'].astype(str)+PANEL['country']
 
     if save_file == 0:
         pass
