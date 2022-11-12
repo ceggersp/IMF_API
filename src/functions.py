@@ -54,7 +54,7 @@ def find_codes(dim):
 
     return codes
 
-def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save_file=0, file_type='csv'):
+def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save_file=0, file_type='csv', sleep = False):
 
     countries_code_list = find_codes('CL_AREA_'+dataset)
 
@@ -75,6 +75,14 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     # Navigate to series in API-returned JSON data
     data = (requests.get(f'{url}{key}').json()
             ['CompactData']['DataSet']['Series'])
+
+    if sleep == False:
+        pass
+    else:
+        if sleep == True:
+            time.sleep(1.005)
+        else:
+            print('Input "sleep" must be either "True" or "False"')
 
     # Create pandas dataframe from the observations
     PANEL = pd.DataFrame(columns=['period', var_name, 'country'])
