@@ -63,7 +63,7 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
 
     if countries == 'ALL':
         countries_parameter = ''
-        one_country == False
+        one_country = False
     else:
         if len(countries) == 1:
             one_country = True
@@ -124,4 +124,4 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     print('Data retrieved succesfully')
     return PANEL
 
-#print(request_data('IFS', 'PMP_IX', ['GB']))
+#print(request_data('IFS', 'PMP_IX'))
