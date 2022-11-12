@@ -63,7 +63,12 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
 
     if countries == 'ALL':
         countries_parameter = ''
+        one_country == False
     else:
+        if len(countries) == 1:
+            one_country = True
+        else:
+            one_country = False
         for i in range(0, len(countries)):
             if i == 0:
                 countries_parameter = countries[i]
@@ -86,12 +91,19 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
 
     # Create pandas dataframe from the observations
     PANEL = pd.DataFrame(columns=['period', var_name, 'country'])
-    for i in range(0,len(data)):
+    if one_country == True:
         data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
-                    for obs in data[i]['Obs']]
+                    for obs in data['Obs']]
         country_data = pd.DataFrame(data_list, columns=['period', var_name])
-        country_data['country'] = data[i]['@REF_AREA']
+        country_data['country'] = data['@REF_AREA']
         PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
+    else:
+        for i in range(0,len(data)):
+            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
+                        for obs in data[i]['Obs']]
+            country_data = pd.DataFrame(data_list, columns=['period', var_name])
+            country_data['country'] = data[i]['@REF_AREA']
+            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
 
     PANEL['country_name'] = ['.' for i in range(0, len(PANEL))]
     for i in range(0, len(PANEL)):
@@ -112,4 +124,4 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     print('Data retrieved succesfully')
     return PANEL
 
-#print(request_data('IFS', 'PMP_IX', ['GB', 'US', 'CL']))
+print(request_data('IFS', 'PMP_IX', ['GB']))
