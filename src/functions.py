@@ -124,4 +124,4 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     print('Data retrieved succesfully')
     return PANEL
 
-print(request_data('IFS', 'PMP_IX', ['GB']))
+#print(request_data('IFS', 'PMP_IX', ['GB']))
