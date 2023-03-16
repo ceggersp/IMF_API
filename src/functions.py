@@ -99,11 +99,15 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
         PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
     else:
         for i in range(0,len(data)):
-            data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
-                        for obs in data[i]['Obs']]
-            country_data = pd.DataFrame(data_list, columns=['period', var_name])
-            country_data['country'] = data[i]['@REF_AREA']
-            PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
+            try:
+                data_list = [[obs.get('@TIME_PERIOD'), obs.get('@OBS_VALUE')]
+                            for obs in data[i]['Obs']]
+                country_data = pd.DataFrame(data_list, columns=['period', var_name])
+                print(data[i]['@REF_AREA']+' ('+str(i+1)+'/'+str(len(data))+')')
+                country_data['country'] = data[i]['@REF_AREA']
+                PANEL = pd.concat([PANEL,country_data], axis = 0, ignore_index=True)
+            except:
+                pass
 
     PANEL['country_name'] = ['.' for i in range(0, len(PANEL))]
     for i in range(0, len(PANEL)):
@@ -123,5 +127,3 @@ def request_data(dataset, parameters, countries = 'ALL', F='A', var_name=0, save
     os.system(clear_command)
     print('Data retrieved succesfully')
     return PANEL
-
-#print(request_data('IFS', 'PMP_IX'))
