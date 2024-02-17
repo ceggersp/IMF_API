@@ -21,3 +21,5 @@ else:
     os.system('del '+ppath+'\\__init__.py')
     os.system('copy '+'"'+wpath+'\\src\\functions.py" '+ppath)
     os.system('copy '+'"'+wpath+'\\src\\__init__.py" '+ppath)
+
+print('Package succesfully installed in '+ppath)
